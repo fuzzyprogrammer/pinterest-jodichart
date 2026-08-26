@@ -1,0 +1,6 @@
+{
+  "name": "Pinterest Auto Marketer",
+  "description": "Zero-cost, safety-first autonomous marketing engine for Pinterest: research, visual pin generation, perceptual deduplication, throttled publishing, and performance adaptation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,15 @@
+{
+  "niche": "Lifestyle, Productivity & Sustainable Living",
+  "brand_name": "NordicHabits",
+  "brand_url": "https://example.com/nordichabits",
+  "default_utm_source": "pinterest",
+  "default_utm_medium": "organic_auto_pin",
+  "target_audiences": ["Busy Professionals", "Home Decor Enthusiasts", "Eco-Conscious Individuals"],
+  "visual_style_presets": ["modern_minimalist", "warm_editorial", "clean_infographic", "bold_quote", "aesthetic_pastel"],
+  "banned_keywords": ["guaranteed", "get rich quick", "free money", "miracle cure", "lose 20lbs overnight", "crypto moon"],
+  "posting_schedule_preferences": {
+    "preferred_hours_utc": [14, 17, 21, 23],
+    "jitter_window_minutes": 45,
+    "min_gap_between_pins_seconds": 180
+  }
+}

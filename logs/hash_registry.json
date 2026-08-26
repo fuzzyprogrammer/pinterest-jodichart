@@ -1,0 +1,42 @@
+{
+  "images": [
+    {
+      "pin_id": "pin_20260825_140001_8b31a2",
+      "phash": "e1f0c2394b88a910",
+      "date": "2026-08-25"
+    },
+    {
+      "pin_id": "pin_20260825_170002_4c99d1",
+      "phash": "a2c4e68012345678",
+      "date": "2026-08-25"
+    }
+  ],
+  "texts": [
+    {
+      "pin_id": "pin_20260825_140001_8b31a2",
+      "title": "Minimalist Scandinavian Living Room: The Ultimate Guide",
+      "date": "2026-08-25"
+    },
+    {
+      "pin_id": "pin_20260825_170002_4c99d1",
+      "title": "Daily Time Blocking Routine for High Focus",
+      "date": "2026-08-25"
+    }
+  ],
+  "board_history": {
+    "2026-08-25": [
+      {
+        "pin_id": "pin_20260825_140001_8b31a2",
+        "board_name": "Minimalist Living",
+        "topic_seed": "Minimalist Scandinavian Living Room",
+        "published_at": "2026-08-25T14:00:01.120000Z"
+      },
+      {
+        "pin_id": "pin_20260825_170002_4c99d1",
+        "board_name": "Productivity & Habits",
+        "topic_seed": "Daily Time Blocking Routine",
+        "published_at": "2026-08-25T17:00:02.430000Z"
+      }
+    ]
+  }
+}

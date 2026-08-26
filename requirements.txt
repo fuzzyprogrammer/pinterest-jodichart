@@ -1,0 +1,12 @@
+# Pinterest Auto Marketer Dependencies (Zero-Cost First)
+requests>=2.31.0
+python-dotenv>=1.0.1
+Pillow>=10.3.0
+imagehash>=4.3.1
+numpy>=1.26.4
+
+# Optional: Text similarity via embeddings (Only if operator opts into sentence-transformers)
+# sentence-transformers>=2.7.0
+
+# Optional: HuggingFace Inference API (Only if operator opts into LLM copy generation)
+# huggingface-hub>=0.22.0
