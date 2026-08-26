@@ -180,10 +180,27 @@ class SafetyGatekeeper:
             self.write_audit_log("FAILED", "S3_UPLOAD", pin_id, err_msg)
             return {"success": False, "status": "S3_UPLOAD_FAILED", "message": err_msg}
 
-        # Step 4c: Wait for processing (with small polling loop)
-        time.sleep(3)
+        # Step 4c: Robust polling for Pinterest media processing status
+        print(f"[SafetyGatekeeper] Waiting for Pinterest media ID {media_id} to process...")
+        media_ready = False
+        for poll_attempt in range(1, 8):
+            time.sleep(2.5)
+            status_ok, status_data = self.api_client.check_media_status(media_id)
+            if status_ok:
+                current_status = status_data.get("status", "").lower()
+                print(f"[SafetyGatekeeper] Media processing status: '{current_status}' (Attempt {poll_attempt}/7)")
+                if current_status == "succeeded":
+                    media_ready = True
+                    break
+                elif current_status in ["failed", "rejected"]:
+                    err_msg = f"Pinterest rejected media upload: {status_data}"
+                    self.write_audit_log("FAILED", "MEDIA_PROCESSING", pin_id, err_msg)
+                    return {"success": False, "status": "MEDIA_REJECTED", "message": err_msg}
+            else:
+                print(f"[SafetyGatekeeper] Media status check returned: {status_data}")
 
         # Step 4d: Create Pin
+        print(f"[SafetyGatekeeper] Submitting Pin creation to board {self.board_id}...")
         pin_ok, pin_res = self.api_client.create_pin(
             title=title,
             description=description,

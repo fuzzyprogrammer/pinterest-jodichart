@@ -51,10 +51,11 @@ class ResearchEngine:
                     topics.append(row)
         return topics
 
-    def generate_plan(self, count=5, adjustments_path=None):
+    def generate_plan(self, count=5, adjustments_path=None, exclude_today_topics=True):
         """
         Generates research plan with pin configurations, optimal post hours with jitter,
         and high-converting hashtag clusters. Incorporates feedback from adjustments.json if available.
+        Excludes topics already published today if exclude_today_topics is True.
         """
         topics = self.load_topics()
         seeds = self.load_seeds()
@@ -77,7 +78,27 @@ class ResearchEngine:
                 "destination_url": "https://example.com/morning-routine"
             }]
 
-        selected_topics = random.sample(topics, min(count, len(topics))) if len(topics) >= count else topics
+        # Check today's history in hash_registry.json to prioritize fresh topics
+        if exclude_today_topics and os.path.exists("logs/hash_registry.json"):
+            try:
+                with open("logs/hash_registry.json", "r", encoding="utf-8") as f:
+                    registry = json.load(f)
+                today_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                today_published_topics = {
+                    e.get("topic_seed") for e in registry.get("board_history", {}).get(today_date, [])
+                }
+                fresh_topics = [t for t in topics if t.get("topic_seed") not in today_published_topics]
+                if fresh_topics:
+                    topics_pool = fresh_topics
+                else:
+                    # If all topics have been touched today, cycle through with fresh random seeds
+                    topics_pool = topics
+            except Exception:
+                topics_pool = topics
+        else:
+            topics_pool = topics
+
+        selected_topics = random.sample(topics_pool, min(count, len(topics_pool))) if len(topics_pool) >= count else topics_pool
         plan_items = []
         
         preferred_hours = seeds.get("posting_schedule_preferences", {}).get("preferred_hours_utc", [14, 17, 21, 23])

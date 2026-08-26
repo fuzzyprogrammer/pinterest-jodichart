@@ -124,14 +124,14 @@ class DedupeSafetyEngine:
                 }
 
         # 4. Cross-Board Daily Spam Protection
-        # Ensure we don't post identical copy or seed to multiple boards on the same day
+        # Protect against duplicate pins with the exact same topic and title on the same day
         today_posts = registry.get("board_history", {}).get(today_date, [])
         for entry in today_posts:
-            if entry.get("topic_seed") == pin_candidate.get("topic_seed"):
+            if entry.get("topic_seed") == pin_candidate.get("topic_seed") and entry.get("board_name") == candidate_board:
                 return {
                     "safe_to_publish": False,
                     "violation_type": "cross_board_frequency",
-                    "details": f"Topic '{pin_candidate.get('topic_seed')}' was already scheduled today. Space across different days."
+                    "details": f"Topic '{pin_candidate.get('topic_seed')}' was already scheduled on board '{candidate_board}' today. Spacing required."
                 }
 
         return {
