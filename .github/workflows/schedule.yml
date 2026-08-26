@@ -6,15 +6,15 @@ on:
     - cron: '0 14,17,21 * * *'
   workflow_dispatch:
     inputs:
-      dry_run_override:
-        description: 'Force Dry Run (Simulate only)'
-        required: true
-        type: boolean
-        default: true
-      pin_count:
-        description: 'Number of pins to process in this run'
+      dry_run:
+        description: 'Dry Run Mode (Check box to simulate without posting)'
         required: false
-        default: '2'
+        type: boolean
+        default: false
+      pin_count:
+        description: 'Number of pins to create in this run'
+        required: false
+        default: '1'
 
 permissions:
   contents: write
@@ -40,14 +40,15 @@ jobs:
 
       - name: Execute Autonomous Marketer Cycle
         env:
-          # Required Secrets for live publishing (must be configured in GitHub Repo Secrets)
+          # Required Secrets for live publishing (configured in GitHub Repo Secrets)
           PINTEREST_ACCESS_TOKEN: ${{ secrets.PINTEREST_ACCESS_TOKEN }}
           PINTEREST_BOARD_ID: ${{ secrets.PINTEREST_BOARD_ID }}
           
-          # Safety Flags (Defaults to SAFE / DRY_RUN if secrets are unset)
-          ENABLE_PUBLISH: ${{ secrets.ENABLE_PUBLISH || 'false' }}
-          DRY_RUN_MODE: ${{ github.event.inputs.dry_run_override != '' && github.event.inputs.dry_run_override || secrets.DRY_RUN_MODE || 'true' }}
-          MAX_PINS_PER_DAY: ${{ secrets.MAX_PINS_PER_DAY || '10' }}
+          # Safety Flags (When dry_run input is unchecked or false, defaults to live publishing)
+          ENABLE_PUBLISH: ${{ github.event.inputs.dry_run == 'true' && 'false' || secrets.ENABLE_PUBLISH || 'true' }}
+          DRY_RUN_MODE: ${{ github.event.inputs.dry_run == 'true' && 'true' || secrets.DRY_RUN_MODE || 'false' }}
+          MAX_PINS_PER_DAY: ${{ secrets.MAX_PINS_PER_DAY || '30' }}
+          PIN_COUNT: ${{ github.event.inputs.pin_count || '' }}
           CRON_RUNS_PER_DAY: '3'
           
           # Optional Free Integrations

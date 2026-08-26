@@ -52,6 +52,8 @@ class ScheduleRunner:
         print(f"🚀 PINTEREST AUTO MARKETER - AUTOMATION CYCLE STARTED")
         print(f"📊 Daily quota: {today_count}/{self.max_pins_per_day} used ({remaining} remaining today)")
         print(f"🎯 Target pins for this run: {target_count}")
+        print(f"🔑 Pinterest Token: {'Configured (len=' + str(len(self.gatekeeper.access_token)) + ')' if self.gatekeeper.access_token else '⚠️ MISSING'}")
+        print(f"📌 Pinterest Board ID: {self.gatekeeper.board_id or '⚠️ MISSING'}")
         print(f"🔒 Mode: {'LIVE PRODUCTION' if (self.gatekeeper.enable_publish and not self.gatekeeper.dry_run_mode) else 'DRY_RUN (SAFE SIMULATION)'}")
         print(f"=======================================================")
 
@@ -110,5 +112,7 @@ class ScheduleRunner:
         }
 
 if __name__ == "__main__":
+    count_env = os.getenv("PIN_COUNT", "").strip()
+    force_count = int(count_env) if (count_env and count_env.isdigit() and int(count_env) > 0) else None
     runner = ScheduleRunner()
-    runner.run_cycle()
+    runner.run_cycle(force_count=force_count)
