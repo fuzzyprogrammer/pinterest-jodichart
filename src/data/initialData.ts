@@ -2,12 +2,12 @@ import { TopicSeed, PinCandidate, AuditLogEntry, StylePerformance, AppConfig } f
 import { defaultRoutingConfig } from '../utils/urlFeedUtils';
 
 export const initialConfig: AppConfig = {
-  enable_publish: false,
-  dry_run_mode: true,
-  max_pins_per_day: 10,
+  enable_publish: true,
+  dry_run_mode: false,
+  max_pins_per_day: 30,
   cron_runs_per_day: 3,
   pinterest_access_token: '',
-  pinterest_board_id: '',
+  pinterest_board_id: '782570941440604206',
   unsplash_access_key: '',
   huggingface_token: '',
   use_llm_copy: false,

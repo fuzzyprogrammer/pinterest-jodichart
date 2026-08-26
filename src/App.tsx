@@ -36,9 +36,42 @@ import { SettingsModal } from './components/SettingsModal';
 import { downloadRepositoryZip } from './utils/zipExporter';
 import { generatePseudoPerceptualHash, buildTrackedUrl } from './utils/hashUtils';
 
+const CONFIG_STORAGE_KEY = 'pinterest_marketer_config_v1';
+
+function getStoredConfig(): AppConfig {
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem(CONFIG_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return {
+          ...initialConfig,
+          ...parsed,
+          routing_config: {
+            ...initialConfig.routing_config,
+            ...(parsed.routing_config || {}),
+          },
+        };
+      }
+    } catch (e) {
+      console.warn('Failed to load stored config', e);
+    }
+  }
+  return initialConfig;
+}
+
 export default function App() {
   // App Global State
-  const [config, setConfig] = useState<AppConfig>(initialConfig);
+  const [config, setConfig] = useState<AppConfig>(getStoredConfig);
+
+  const handleUpdateConfig = (newConfig: AppConfig) => {
+    setConfig(newConfig);
+    try {
+      localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(newConfig));
+    } catch (e) {
+      console.error('Failed to save config to localStorage', e);
+    }
+  };
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [topics, setTopics] = useState<TopicSeed[]>(initialTopics);
   const [todayCount, setTodayCount] = useState<number>(2);
@@ -418,7 +451,7 @@ export default function App() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         config={config}
-        onSaveConfig={setConfig}
+        onSaveConfig={handleUpdateConfig}
       />
     </div>
   );

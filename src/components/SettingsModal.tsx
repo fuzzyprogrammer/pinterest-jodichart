@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Save, ShieldCheck, Key, Settings, Globe, Link2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Save, ShieldCheck, Key, Settings, Globe, Link2, CheckCircle2 } from 'lucide-react';
 import { AppConfig } from '../types';
 
 interface SettingsModalProps {
@@ -16,13 +16,22 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onSaveConfig,
 }) => {
   const [formData, setFormData] = useState<AppConfig>(config);
+  const [savedNotice, setSavedNotice] = useState(false);
+
+  useEffect(() => {
+    setFormData(config);
+  }, [config, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSaveConfig(formData);
-    onClose();
+    setSavedNotice(true);
+    setTimeout(() => {
+      setSavedNotice(false);
+      onClose();
+    }, 600);
   };
 
   return (
@@ -313,21 +322,37 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-end gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs cursor-pointer transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg text-xs font-semibold cursor-pointer shadow flex items-center gap-1.5 transition-colors"
-            >
-              <Save className="w-3.5 h-3.5" />
-              <span>Save Configuration</span>
-            </button>
+          <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Persisted locally in browser storage across page refreshes.</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs cursor-pointer transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg text-xs font-semibold cursor-pointer shadow flex items-center gap-1.5 transition-colors"
+              >
+                {savedNotice ? (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-slate-950" />
+                    <span>Saved!</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5" />
+                    <span>Save & Keep Persisted</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </div>
