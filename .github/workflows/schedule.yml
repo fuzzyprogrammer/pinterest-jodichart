@@ -54,6 +54,7 @@ jobs:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
           USE_LLM_COPY: ${{ secrets.USE_LLM_COPY || 'false' }}
+          PYTHONPATH: .
         run: |
           echo "🛡️ Starting Pinterest Auto Marketer cycle..."
           echo "Safety Gate ENABLE_PUBLISH: $ENABLE_PUBLISH"

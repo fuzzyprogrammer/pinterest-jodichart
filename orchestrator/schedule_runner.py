@@ -5,9 +5,16 @@ and loops through research -> generation -> dedupe -> gated publishing.
 """
 
 import os
+import sys
 import time
 import math
 import random
+from dotenv import load_dotenv
+
+# Ensure the project root is in sys.path regardless of execution directory
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+load_dotenv()
+
 from research_strategy.researcher import ResearchEngine
 from generator.pin_builder import PinBuilder
 from publisher.safety_gate import SafetyGatekeeper
