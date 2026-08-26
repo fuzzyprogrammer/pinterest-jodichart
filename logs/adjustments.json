@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-08-26T12:36:32.891469+00:00",
+  "top_performing_template": "clean_infographic",
+  "style_performance_matrix": {
+    "modern_minimalist": {
+      "impressions": 12400,
+      "saves": 310,
+      "outbound_clicks": 180,
+      "save_rate_pct": 2.5,
+      "outbound_ctr_pct": 1.45,
+      "engagement_score": 9.35
+    },
+    "warm_editorial": {
+      "impressions": 9800,
+      "saves": 280,
+      "outbound_clicks": 140,
+      "save_rate_pct": 2.86,
+      "outbound_ctr_pct": 1.43,
+      "engagement_score": 10.0
+    },
+    "clean_infographic": {
+      "impressions": 15200,
+      "saves": 640,
+      "outbound_clicks": 320,
+      "save_rate_pct": 4.21,
+      "outbound_ctr_pct": 2.11,
+      "engagement_score": 14.74
+    },
+    "bold_quote": {
+      "impressions": 6100,
+      "saves": 95,
+      "outbound_clicks": 45,
+      "save_rate_pct": 1.56,
+      "outbound_ctr_pct": 0.74,
+      "engagement_score": 5.33
+    },
+    "aesthetic_pastel": {
+      "impressions": 8300,
+      "saves": 210,
+      "outbound_clicks": 115,
+      "save_rate_pct": 2.53,
+      "outbound_ctr_pct": 1.39,
+      "engagement_score": 9.22
+    }
+  },
+  "recommendations": {
+    "preferred_visual_template": "clean_infographic",
+    "recommended_cta": "GET THE CHECKLIST",
+    "recommended_post_hour_utc": 17,
+    "adaptation_notes": "Template 'clean_infographic' outperformed other styles with 14.74 engagement score. Increasing allocation in upcoming research plans."
+  }
+}
